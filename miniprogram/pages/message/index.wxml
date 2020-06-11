@@ -1,0 +1,75 @@
+<!--miniprogram/pages/message/index.wxml-->
+
+<wxs src="../common.wxs" module="common" />
+
+<van-notice-bar
+  left-icon="bullhorn-o"
+  text="本工具提供订阅同乘通知，多次出行多次订阅即可。若与您乘坐同一交通工具的乘客中有出现感染者，我们将及时推送消息通知您。我们的初衷是帮助大家尽量多的获知疫情信息，但我们通过技术手段获取疫情患者所乘车次信息仅供参考，不承担使用本工具所引起的任何后果！"
+/>
+
+<van-cell-group border="{{false}}">
+
+  <picker mode="date" value="{{date}}" start="2020-01-01" end="{{endDate}}" bindchange="onDateChange">
+    <van-cell
+      center
+      required
+      title-width="180rpx"
+      title="出行日期"
+      is-link
+    >
+      <view class="value">{{date ? date : '例如：2020-01-01'}}</view>
+    </van-cell>
+
+  </picker>
+
+  <picker value="{{typeIndex}}" range="{{typeArray}}" range-key="text" bindchange="onTypeChange">
+    <van-cell
+      center
+      required
+      title-width="180rpx"
+      title="出行交通"
+      is-link
+    >
+      <view class="value">{{typeArray[currentTypeIndex].text}}</view>
+    </van-cell>
+
+  </picker>
+
+  <van-field
+    center
+    required
+    clearable
+    title-width="180rpx"
+    border="{{false}}"
+    bindinput="onNoInput"
+    label="车次"
+    value="{{no}}"
+    placeholder="车次或航班，例如：T123"
+  />
+  
+</van-cell-group>
+
+<van-row>
+    <van-col span="20" offset="2">
+      <van-button custom-class="mt10" type="info" bind:click="onSubscribeTap" block>订阅行程预约通知</van-button>
+    </van-col>
+</van-row>
+
+<scroll-view wx:if="{{subscribeData.length > 0}}" scroll-y class="scroll mt30" bindscrolltoupper="onScrolltoupper" style="{{ isIphoneX ? 'height:760rpx;' : '' }}">
+    <van-cell-group>
+        <van-cell
+          wx:for="{{subscribeData}}"
+          wx:key="true"
+          title-width="80%"
+          center
+          title="行程：{{item.date + ' | ' + common.formatType(item.type) + ' ' + item.no}}"
+          label="订阅时间：{{item.addtime}}"
+          url="{{item.done ? '/pages/detail/index?id='+ item.ncovList[0]._id : ''}}"
+        >
+          <view class="done">
+            <text wx:if="{{item.done}}">已通知</text>
+            <van-tag wx:else plain round data-id="{{item._id}}" bind:tap="onUnSubscribeTap">取消订阅</van-tag> 
+          </view>
+        </van-cell>
+    </van-cell-group>
+</scroll-view>

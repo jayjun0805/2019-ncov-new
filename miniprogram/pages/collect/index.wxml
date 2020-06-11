@@ -1,0 +1,21 @@
+<!--pages/collect/index.wxml-->
+<wxs src="../common.wxs" module="common" />
+
+<van-cell-group wx:if="{{collectList.length > 0}}">
+
+    <van-cell
+      wx:for="{{collectList}}"
+      wx:key="true"
+      center
+      is-link
+      title-width="60%"
+      title="出行日期：{{item.ncovList[0].t_date}}"
+      value="{{common.formatType(item.ncovList[0].t_type)}}"
+      label="{{item.ncovList[0].t_no}}"
+      url="/pages/detail/index?id={{item.ncovList[0]._id}}"
+    >
+    </van-cell>
+
+</van-cell-group>
+
+<van-divider wx:else contentPosition="center">暂无收藏数据</van-divider>

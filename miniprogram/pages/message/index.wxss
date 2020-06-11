@@ -1,0 +1,13 @@
+/* miniprogram/pages/message/index.wxss */
+
+.value{
+  text-align: left;
+}
+
+.done{
+  color: #1989fa;
+}
+
+.scroll{
+  height: 600rpx;
+}
